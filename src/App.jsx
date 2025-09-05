@@ -1,64 +1,37 @@
-import { useState } from 'react';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import './App.css';
 
 function App() {
-  const title = '제목';
+  // 컴포넌트 내부(js)에서 프로그래밍 방식으로 페이지 이동을 구현
+  const navigato = useNavigate();
 
-  const titleStyle = {
-    color: 'blue', 
-    fontSize: '1rem'
-  };
-
-  const [count, setCount] = useState(0);
-
-  // + 버튼
-  const incrementCount = () => {
-    setCount((prev) => prev + 1);
+  const ok = () => {
+    navigato('/ok');
   }
-
-  // - 버튼
-  const decrementCount = () => {
-    setCount((prev) => {
-      if(prev > 0) {
-        return prev - 1;
-      }
-      else {
-        return 0;
-      }
-    });
-  }
-
-  const [account, setAccount] = useState('');
-
-  const [userInfo, setUserInfo] = useState({
-    name: '홍길동',
-    age: 20,
-    gender: 'M'
-  });
-
-  const addAge = () => {
-    const copy = {...userInfo};
-    copy.age += 1;
-    setUserInfo(copy);
-  }
-
+  
   return (
     <>
-      <span>{`${userInfo.name} : ${userInfo.age} : ${userInfo.gender}`}</span>
-      <button type='button' onClick={addAge}>나이 증가</button>
-      
-      <br />
-      <br />
-      <input type="text" onChange={(e) => {setAccount(e.target.value)}} />
+      <header>
+      <h1>앱</h1>
+      <div className="nav">
+        <Link to={'/list'}>리스트 페이지</Link>
+        <Link to={'/detail'}>상세 페이지</Link>
+        <br />
+        <NavLink to={'/list'}>리스트 페이지</NavLink>
+        <NavLink to={'/detail'}>상세 페이지</NavLink>
+        <br />
+        <button type="button" onClick={ok}>확인</button>
+      </div>
+      </header>
 
-      <p>{account}</p>
+      <main>
+        {/* 라우터의 자식 컴포넌트를 출력 */}
+        <Outlet></Outlet>
+      </main>
 
-      <p>{count}</p>
-      <button type="button" onClick={incrementCount}>+</button>
-      <button type="button" onClick={decrementCount}>-</button>
-
-      <h1 className="title" style={{color: 'red', fontSize: '3rem'}}>{title}</h1>
-      <h1 style={titleStyle}>{title}</h1>
+      <footer>
+        <p>카피라이트</p>
+      </footer>
     </>
   )
 }
